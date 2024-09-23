@@ -1,4 +1,4 @@
--- Drop database
+-- Drop database if it already exists
 DROP DATABASE IF EXISTS auth;
 
 -- Create database + user if doesn't exist
