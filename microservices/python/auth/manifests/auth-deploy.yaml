@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+  labels:
+    app: auth
+spec:
+  replicas: 3  # Correct field for specifying replicas
+  selector:
+    matchLabels:
+      app: auth  # The selector should match the pod template labels
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+      - name: auth-container
+        image: pseins01/auth # Replace with your actual image
+        ports:
+        - containerPort: 8080  # Replace with your actual container port
+        envFrom:
+        - configMapRef:
+            name: auth-configmap
+        - secretRef:
+            name: auth-secret
