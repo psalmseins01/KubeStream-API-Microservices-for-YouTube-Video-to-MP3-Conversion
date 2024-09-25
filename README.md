@@ -1,5 +1,3 @@
----
-
 # KubeStream API: Microservices for Video to MP3 Conversion
 
 ## Project Overview
