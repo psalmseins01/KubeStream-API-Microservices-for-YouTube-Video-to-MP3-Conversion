@@ -63,20 +63,20 @@ microservices/
 │   │   ├── requirements.txt # Dependencies
 │   │   ├── Dockerfile       # Docker configuration for auth service
 │   │   └── manifest/        # Kubernetes manifests for auth service
-│   │       ├── auth-deploy.yaml
-│   │       ├── configmap.yaml
-│   │       ├── secret.yaml
-│   │       ├── service.yaml
+│   │       ├── auth-deploy
+│   │       ├── configmap
+│   │       ├── secret
+│   │       ├── service
 │   │
 │   ├── gateway/             # API Gateway service
 │   │   ├── auth/validate.py # Validation logic for requests
 │   │   ├── Dockerfile       # Docker configuration for gateway service
 │   │   └── manifest/        # Kubernetes manifests for gateway service
-│   │       ├── configmap.yaml
-│   │       ├── gateway-deploy.yaml
-│   │       ├── ingress.yaml
-│   │       ├── secret.yaml
-│   │       ├── service.yaml
+│   │       ├── configmap
+│   │       ├── gateway-deploy
+│   │       ├── ingress
+│   │       ├── secret
+│   │       ├── service
 │   │
 │   ├── converter/           # Video-to-MP3 conversion service
 │   │   ├── consumer.py      # Message consumer for processing jobs
