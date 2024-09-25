@@ -1,3 +1,5 @@
+---
+
 # KubeStream API: Microservices for Video to MP3 Conversion
 
 ## Project Overview
@@ -51,40 +53,100 @@ The microservices architecture ensures that each component functions independent
 
 ## Project Directory Structure
 
+## Microservices and Directory Structure
+
+### 1. **Auth Service**
+- **Description:** Handles user authentication and token generation.
+
 ```
-microservices/
-│
-├── python/
-│   ├── auth/                # Authentication service
-│   │   ├── server.py        # Main application logic
-│   │   ├── init.sql         # MySQL database schema
-│   │   ├── requirements.txt # Dependencies
-│   │   ├── Dockerfile       # Docker configuration for auth service
-│   │   └── manifest/        # Kubernetes manifests for auth service
-│   │       ├── auth-deploy
-│   │       ├── configmap
-│   │       ├── secret
-│   │       ├── service
-│   │
-│   ├── gateway/             # API Gateway service
-│   │   ├── auth/validate.py # Validation logic for requests
-│   │   ├── Dockerfile       # Docker configuration for gateway service
-│   │   └── manifest/        # Kubernetes manifests for gateway service
-│   │       ├── configmap
-│   │       ├── gateway-deploy
-│   │       ├── ingress
-│   │       ├── secret
-│   │       ├── service
-│   │
-│   ├── converter/           # Video-to-MP3 conversion service
-│   │   ├── consumer.py      # Message consumer for processing jobs
-│   │   ├── convert/         # Conversion logic
-│   │   │   └── to_mp3.py    # Video to MP3 conversion script
-│   │   ├── Dockerfile       # Docker configuration for converter service
-│   │   └── manifest/        # Kubernetes manifests for converter service
-│   │
-├── manifests/               # Kubernetes manifests for deployment
-└── venv/                    # Virtual environments for Python services
+microservices/python/auth/
+├── server.py                  # Main Flask application for auth
+├── init.sql                   # SQL initialization script for creating auth DB and user
+├── requirements.txt           # Dependencies for the Auth service
+├── Dockerfile                 # Docker setup for the Auth service
+├── manifest/
+│   ├── auth-deploy       # Kubernetes deployment manifest
+│   ├── configmap         # Kubernetes config map for environment variables
+│   ├── secret            # Kubernetes secret for sensitive information (passwords)
+│   └── service           # Kubernetes service for auth service exposure
+└── venv/                      # Virtual environment setup
+
+```
+### 2. Gateway Service
+- **Description:** Manages API routing and access control, validating requests through the Auth service.
+
+```
+microservices/python/gateway/
+├── auth/
+│   ├── validate.py            # JWT token validation
+│   └── __init__.py
+├── auth_svc/
+│   ├── access.py              # Access control logic for services
+│   └── __init__.py
+├── storage/
+│   ├── util.py                # Storage service utilities (for managing files)
+│   └── __init__.py
+├── Dockerfile                 # Docker setup for Gateway service
+├── requirements.txt           # Dependencies for the Gateway service
+├── manifest/
+│   ├── configmap         # Kubernetes config map for environment variables
+│   ├── gateway-deploy    # Kubernetes deployment manifest
+│   ├── ingress           # Kubernetes ingress rules
+│   ├── secret            # Kubernetes secret for sensitive information
+│   └── service           # Kubernetes service for Gateway service exposure
+└── venv/                      # Virtual environment setup
+
+```
+### 3. Converter Service
+- **Description:** Converts video files to MP3 format using ffmpeg or similar tools.
+
+```
+microservices/python/converter/
+├── consumer.py                # RabbitMQ consumer for handling video conversion tasks
+├── convert/
+│   ├── to_mp3.py              # Video to MP3 conversion logic
+│   └── __init__.py
+├── Dockerfile                 # Docker setup for Converter service
+├── requirements.txt           # Dependencies for the Converter service
+├── manifest/
+│   ├── configmap.yaml         # Kubernetes config map for environment variables
+│   └── converter-deploy.yaml  # Kubernetes deployment manifest
+└── venv/                      # Virtual environment setup
+
+```
+
+### 4. Notification Service
+- **Description:** Sends email notifications to users after video conversion is complete.
+
+```
+microservices/python/notification/
+├── send/
+│   ├── email/                 # Email sending functionality
+│   └── __init__.py
+├── consumer.py                # RabbitMQ consumer for sending notifications
+├── Dockerfile                 # Docker setup for Notification service
+├── requirements.txt           # Dependencies for the Notification service
+├── manifest/
+│   ├── notification-deploy.yml  # Kubernetes deployment manifest
+│   ├── configmap.yml          # Kubernetes config map for environment variables
+│   ├── secret.yml             # Kubernetes secret for sensitive information
+│   └── service.yaml           # Kubernetes service for Notification service exposure
+└── venv/                      # Virtual environment setup
+
+```
+### 5. RabbitMQ Service
+- **Description:** Handles message brokering for asynchronous task processing.
+
+```
+microservices/python/rabbit/
+├── manifest/
+│   ├── configmap.yaml         # RabbitMQ configuration
+│   ├── ingress.yaml           # Kubernetes ingress rules
+│   ├── pvc.yaml               # Persistent Volume Claim for RabbitMQ
+│   ├── secret.yaml            # Kubernetes secret for sensitive information
+│   ├── services.yaml          # Kubernetes service for RabbitMQ exposure
+│   └── statefulset.yaml       # StatefulSet for RabbitMQ for reliable message storage
+
 ```
 
 ---
