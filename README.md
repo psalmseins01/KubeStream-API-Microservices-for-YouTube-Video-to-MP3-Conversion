@@ -87,11 +87,11 @@ microservices/python/gateway/
 ├── Dockerfile                 # Docker setup for Gateway service
 ├── requirements.txt           # Dependencies for the Gateway service
 ├── manifest/
-│   ├── configmap         # Kubernetes config map for environment variables
-│   ├── gateway-deploy    # Kubernetes deployment manifest
-│   ├── ingress           # Kubernetes ingress rules
-│   ├── secret            # Kubernetes secret for sensitive information
-│   └── service           # Kubernetes service for Gateway service exposure
+│   ├── configmap.yaml         # Kubernetes config map for environment variables
+│   ├── gateway-deploy.yaml    # Kubernetes deployment manifest
+│   ├── ingress.yaml           # Kubernetes ingress rules
+│   ├── secret.yaml            # Kubernetes secret for sensitive information
+│   └── service.yaml           # Kubernetes service for Gateway service exposure
 └── venv/                      # Virtual environment setup
 
 ```
