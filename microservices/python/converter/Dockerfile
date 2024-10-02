@@ -17,5 +17,5 @@ COPY . /app
 # Set environment variables if necessary
 # ENV ...
 
-# Define the entry point
+# Define the entry point for the app
 CMD ["python", "consumer.py"]
